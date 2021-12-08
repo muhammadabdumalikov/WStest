@@ -3,11 +3,28 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const express = require("express");
-const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const swaggerUI = require("swagger-ui-express");
 
 const db = require("./config/database");
+const errorHandler = require("./middlewares/errorHandler");
+const docs = require("./docs");
 
 const app = express();
+
+// Middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(cookieParser());
+app.use(errorHandler);
+
+// Routes
+app.use("/api", require("./routes"));
+
+// Docs
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
 // MongoDB connection
 db();
