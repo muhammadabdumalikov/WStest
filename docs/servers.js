@@ -1,7 +1,7 @@
 module.exports = {
   servers: [
     {
-      url: "http://zehniyat.herokuapp.com",
+      url: "https://zehniyat.herokuapp.com/api",
       description: "Development server",
     },
   ],
