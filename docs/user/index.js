@@ -3,7 +3,6 @@ const registerVerify = require("./registerVerify");
 const login = require("./login");
 const loginVerify = require("./loginVerify");
 const logout = require("./logout");
-const token = require("./token");
 const info = require("./info");
 const update = require("./update");
 const userDelete = require("./delete");
@@ -24,9 +23,6 @@ module.exports = {
     },
     "/logout": {
       ...logout,
-    },
-    "/token": {
-      ...token,
     },
     "/me": {
       ...info,

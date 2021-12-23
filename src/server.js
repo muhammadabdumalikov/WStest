@@ -9,7 +9,7 @@ const swaggerUI = require("swagger-ui-express");
 
 const db = require("./config/database");
 const errorHandler = require("./middlewares/errorHandler");
-const docs = require("./docs");
+const docs = require("../docs");
 
 const app = express();
 

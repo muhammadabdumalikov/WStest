@@ -1,4 +1,5 @@
 const required = ["phone", "name"];
+const { permitted } = require("../src/config/enums");
 
 const user = {
   name: {
@@ -21,6 +22,14 @@ const user = {
     type: "string",
     description: "User's living region",
   },
+  interests: {
+    type: "array",
+    description: "User's interests books categories",
+    items: {
+      type: "string",
+      enum: permitted,
+    },
+  },
 };
 
 module.exports = {
@@ -40,6 +49,7 @@ module.exports = {
           age: user.age,
           email: user.email,
           region: user.region,
+          interests: user.interests,
         },
         example: {
           name: "Falonchi Falonchiyev",
@@ -59,6 +69,7 @@ module.exports = {
           age: user.age,
           email: user.email,
           region: user.region,
+          interests: user.interests,
         },
         example: {
           name: "Falonchi Falonchiyev",
@@ -66,6 +77,7 @@ module.exports = {
           age: 18,
           email: "mail@example.com",
           region: "Tashkent",
+          interests: permitted,
         },
       },
       Code: {

@@ -14,6 +14,4 @@ router.get("/logout", userCtrl.logout);
 
 router.get("/me", auth, userCtrl.getUser);
 
-router.get("/token", auth, userCtrl.refreshToken);
-
 module.exports = router;

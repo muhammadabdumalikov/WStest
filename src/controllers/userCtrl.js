@@ -53,13 +53,6 @@ const userCtrl = {
 
       // Then create jsonwebtoken to authentication
       const accessToken = createAccessToken({ id: newUser._id });
-      const refreshToken = createRefreshToken({ id: newUser._id });
-
-      res.cookie("refreshtoken", refreshToken, {
-        httpOnly: true,
-        path: "/api/token",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
-      });
 
       res.status(201).json({ accessToken });
     } catch (err) {
@@ -97,13 +90,6 @@ const userCtrl = {
 
       // If login success , create access token and refresh token
       const accessToken = createAccessToken({ id: user._id });
-      const refreshToken = createRefreshToken({ id: user._id });
-
-      res.cookie("refreshtoken", refreshToken, {
-        httpOnly: true,
-        path: "/api/token",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
-      });
 
       res.json({ accessToken });
     } catch (err) {
@@ -134,11 +120,9 @@ const userCtrl = {
       const { phone } = req.body;
 
       if (phone)
-        return res
-          .status(400)
-          .json({
-            err: { name: "Invalid", message: "Can not change the number" },
-          });
+        return res.status(400).json({
+          err: { name: "Invalid", message: "Can not change the number" },
+        });
 
       const user = await Users.findByIdAndUpdate(req.user.id, update);
       if (!user) return res.error.notFoundUser(res);
@@ -158,43 +142,19 @@ const userCtrl = {
       return res.error.handleError(res, err);
     }
   },
-  refreshToken: async (req, res) => {
-    try {
-      const refreshToken = req.cookies.refreshtoken;
-      if (!refreshToken) return res.error.invalidAuthorization(res);
-
-      await jwt.verify(
-        refreshToken,
-        process.env.REFRESH_TOKEN_SECRET,
-        (err, user) => {
-          if (err) return res.error.invalidAuthorization(res);
-
-          const accessToken = createAccessToken({ id: user.id });
-
-          res.json({ accessToken });
-        }
-      );
-    } catch (err) {
-      return res.error.handleError(res, err);
-    }
-  },
 
   // Validation
   checkPhone: [check("phone", "Incorrect phone number").isMobilePhone()],
 };
 
+// Token
 const createAccessToken = (user) => {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "3d",
   });
 };
 
-const createRefreshToken = (user) => {
-  return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "7d",
-  });
-};
-
+// Verification
 const createVerification = (phone) => {
   return client.verify
     .services(process.env.TWILIO_SERVICE_ID)

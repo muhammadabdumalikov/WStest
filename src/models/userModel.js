@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { permitted } = require("../config/enums");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -17,11 +18,14 @@ const userSchema = new mongoose.Schema({
     trim: true,
   },
   age: {
-    type: Number,
+    type: String,
   },
   region: {
     type: String,
     trim: true,
+  },
+  interests: {
+    type: [{ type: String, enum: permitted }],
   },
 });
 
