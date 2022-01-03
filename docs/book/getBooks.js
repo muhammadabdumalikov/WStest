@@ -9,10 +9,15 @@ module.exports = {
         content: {
           "application/json": {
             schema: {
-              type: "array",
-              description: "All books",
-              items: {
-                $ref: "#/components/schemas/Book",
+              type: "object",
+              properties: {
+                books: {
+                  type: "array",
+                  description: "All books",
+                  items: {
+                    $ref: "#/components/schemas/Book",
+                  },
+                },
               },
             },
           },
