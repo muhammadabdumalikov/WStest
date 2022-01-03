@@ -94,6 +94,25 @@ module.exports = {
           code: 123456,
         },
       },
+      Verify: {
+        type: "object",
+        required: ["phone", "code"],
+        description: "Code sent to the user",
+        properties: {
+          phone: {
+            type: "string",
+            description: "User phone number",
+          },
+          code: {
+            type: "string",
+            description: "Code sent to the user",
+          },
+        },
+        example: {
+          phone: "+998901234567",
+          code: 123456,
+        },
+      },
       Login: {
         type: "object",
         required,

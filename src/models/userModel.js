@@ -18,7 +18,12 @@ const userSchema = new mongoose.Schema({
     trim: true,
   },
   age: {
-    type: String,
+    from: {
+      type: Number,
+    },
+    to: {
+      type: Number,
+    },
   },
   region: {
     type: String,
@@ -26,6 +31,10 @@ const userSchema = new mongoose.Schema({
   },
   interests: {
     type: [{ type: String, enum: permitted }],
+  },
+  verified: {
+    type: Boolean,
+    default: false,
   },
 });
 

@@ -83,7 +83,7 @@ const errorHandler = (req, res, next) => {
       res.status(400).json({
         err: {
           name: "ValidationError",
-          error: err.array(),
+          error: err,
         },
       });
     },
@@ -108,6 +108,22 @@ const errorHandler = (req, res, next) => {
         err: {
           name: "AlreadyExist",
           message: "The phone number already exists.",
+        },
+      });
+    },
+    notRegistered: async (res) => {
+      res.status(400).json({
+        err: {
+          code: "NOT_REGISTERED",
+          message: "You are not registered",
+        },
+      });
+    },
+    codeNotValid: async (res) => {
+      res.status(400).json({
+        err: {
+          code: "CODE_NOT_VALID",
+          message: "Code not valid",
         },
       });
     },

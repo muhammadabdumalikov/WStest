@@ -8,7 +8,7 @@ module.exports = {
       content: {
         "application/json": {
           schema: {
-            $ref: "#/components/schemas/Code",
+            $ref: "#/components/schemas/Verify",
           },
         },
       },

@@ -6,9 +6,6 @@ const client = require("twilio")(
   process.env.TWILIO_AUTH_TOKEN
 );
 
-let gRUser = {};
-let gLUser = {};
-
 const userCtrl = {
   register: async (req, res) => {
     try {
@@ -17,12 +14,29 @@ const userCtrl = {
 
       const { name, phone, region, age, email } = req.body;
 
-      const userPhone = await Users.findOne({ phone });
-      if (userPhone) return res.error.alreadyExistPhone(res);
+      if (phone.length !== 13)
+        return res.error.validationError(res, "Enter valid phone number");
+
+      const user = await Users.findOne({ phone });
+      if (user) {
+        if (user.verified) return res.error.alreadyExistPhone(res);
+        if (!user.verified) {
+          await Users.findOneAndUpdate({ phone }, { name, region, age, email });
+        }
+      }
+
+      if (!user) {
+        const newUser = new Users({
+          phone,
+          name,
+          region,
+          age,
+          email,
+        });
+        await newUser.save();
+      }
 
       await createVerification(phone);
-
-      gRUser = { name, phone, region, age, email };
 
       res.json({ message: `Code sent to ${phone}` });
     } catch (err) {
@@ -31,28 +45,31 @@ const userCtrl = {
   },
   registerVerify: async (req, res) => {
     try {
-      const { code } = req.body;
-      const { name, phone, region, age, email } = gRUser;
+      const { phone, code } = req.body;
 
-      if (!code) return res.error.codeValidationError(res);
+      const user = await Users.findOne({ phone });
+      if (!user) return res.error.notRegistered(res);
+      if (user.verified) return res.error.alreadyExistPhone(res);
+
+      if (!code) return res.error.validationError(res, "Code not entered.");
+
+      const codeStr = code.toString();
+      const n1 = Math.abs(codeStr);
+      const n2 = parseInt(codeStr, 10);
+      if (isNaN(n1) && n2 !== n1 && n1.toString() !== codeStr)
+        return res.error.validationError(res, "Enter valid code.");
+
+      if (code.toString().length !== 6)
+        return res.error.validationError(res, "Code length invalid.");
 
       const info = await verifyVerification(phone, code);
 
-      if (!info.valid) return res.error.invalidCode(res);
+      if (!info.valid) return res.error.codeNotValid(res);
 
-      const newUser = new Users({
-        name,
-        phone,
-        region,
-        age,
-        email,
-      });
-      await newUser.save();
-
-      gRUser = {};
+      await Users.findOneAndUpdate({ phone }, { verified: true });
 
       // Then create jsonwebtoken to authentication
-      const accessToken = createAccessToken({ id: newUser._id });
+      const accessToken = createAccessToken({ id: user._id });
 
       res.status(201).json({ accessToken });
     } catch (err) {
@@ -68,8 +85,6 @@ const userCtrl = {
 
       await createVerification(phone);
 
-      gLUser = { phone };
-
       res.json({ message: `Code sent to ${phone}` });
     } catch (err) {
       return res.error.handleError(res, err);
@@ -77,8 +92,7 @@ const userCtrl = {
   },
   loginVerify: async (req, res) => {
     try {
-      const { code } = req.body;
-      const { phone } = gLUser;
+      const { phone, code } = req.body;
 
       if (!code) return res.error.codeValidationError(res);
 
@@ -106,7 +120,7 @@ const userCtrl = {
   },
   getUser: async (req, res) => {
     try {
-      const user = await Users.findById(req.user.id);
+      const user = await Users.findById(req.user.id).select("-verified");
       if (!user) return res.error.notFoundUser(res);
 
       res.json(user);
