@@ -1,4 +1,4 @@
-const required = ["phone", "name"];
+const userRequired = ["phone", "name"];
 const { permitted } = require("../src/config/enums");
 
 const user = {
@@ -32,12 +32,48 @@ const user = {
   },
 };
 
+const book = {
+  name: {
+    type: "string",
+    description: "Book's name",
+  },
+  description: {
+    type: "string",
+    description: "Book's description",
+  },
+  tags: {
+    type: "array",
+    description: "Book's tags",
+    items: {
+      type: "string",
+      enum: permitted,
+    },
+  },
+  author: {
+    type: "string",
+    description: "Book's author",
+  },
+  ratings: {
+    type: "number",
+    description: "Book's ratings",
+  },
+  students: {
+    type: "number",
+    description: "The number of students reading the book",
+  },
+  sections: {
+    type: "number",
+    description: "Book's section number",
+  },
+};
+
 module.exports = {
   components: {
     schemas: {
+      // Auth
       User: {
         type: "object",
-        required,
+        userRequired,
         description: "All user data",
         properties: {
           _id: {
@@ -61,7 +97,7 @@ module.exports = {
       },
       Register: {
         type: "object",
-        required,
+        userRequired,
         description: "Only user register data",
         properties: {
           name: user.name,
@@ -115,7 +151,7 @@ module.exports = {
       },
       Login: {
         type: "object",
-        required,
+        userRequired,
         description: "Only user login data",
         properties: { phone: user.phone },
         example: {
@@ -138,9 +174,44 @@ module.exports = {
           bearerFormat: "JWT",
         },
       },
+
+      // Books
+      Book: {
+        type: "object",
+        userRequired,
+        description: "All user data",
+        properties: {
+          _id: {
+            type: "string",
+            description: "Book's identification number",
+          },
+          name: book.name,
+          description: book.description,
+          tags: book.tags,
+          author: book.author,
+          ratings: book.ratings,
+          students: book.students,
+          sections: book.sections,
+        },
+        example: {
+          name: "Godfather",
+          description: "Criminal book",
+          tags: ["political", "biography"],
+          author: "Mario Puzo",
+          ratings: 4.3,
+          students: 1,
+          sections: 576,
+        },
+      },
+
+      // Messages
       Success: {
         type: "object",
         properties: {
+          code: {
+            type: "string",
+            description: "Success code",
+          },
           message: {
             type: "string",
             description: "Success message",

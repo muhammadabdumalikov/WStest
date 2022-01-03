@@ -8,30 +8,28 @@ const update = require("./update");
 const userDelete = require("./delete");
 
 module.exports = {
-  paths: {
-    "/register": {
-      ...register,
-    },
-    "/register/verify": {
-      ...registerVerify,
-    },
-    "/login": {
-      ...login,
-    },
-    "/login/verify": {
-      ...loginVerify,
-    },
-    "/logout": {
-      ...logout,
-    },
-    "/me": {
-      ...info,
-    },
-    // "/me": {
-    //   ...update,
-    // },
-    // "/delete": {
-    //   ...userDelete,
-    // },
+  "/register": {
+    ...register,
   },
+  "/register/verify": {
+    ...registerVerify,
+  },
+  "/login": {
+    ...login,
+  },
+  "/login/verify": {
+    ...loginVerify,
+  },
+  "/logout": {
+    ...logout,
+  },
+  "/me": {
+    ...info,
+  },
+  // "/me": {
+  //   ...update,
+  // },
+  // "/delete": {
+  //   ...userDelete,
+  // },
 };

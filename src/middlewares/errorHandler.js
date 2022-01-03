@@ -3,13 +3,13 @@ const errorHandler = (req, res, next) => {
     serverError: async (res, err) => {
       res.status(500).json({
         err: {
-          name: "ServerErr",
+          code: "ServerErr",
           message: `International server error: ${err.message}`,
         },
       });
     },
     handleError: async (res, err) => {
-      switch (err.name) {
+      switch (err.code) {
         case "ValidationError":
           return res.status(400).json({ err });
         case "CastError":
@@ -17,7 +17,7 @@ const errorHandler = (req, res, next) => {
         default:
           return res.status(500).json({
             err: {
-              name: "ServerErr",
+              code: "ServerErr",
               message: `International server error: ${err.message}`,
             },
           });
@@ -26,7 +26,7 @@ const errorHandler = (req, res, next) => {
     noUpload: async (res) => {
       res.status(400).json({
         err: {
-          name: "NoUpload",
+          code: "NoUpload",
           message: "No upload file",
         },
       });
@@ -34,7 +34,7 @@ const errorHandler = (req, res, next) => {
     invalidSize: async (res) => {
       res.status(400).json({
         err: {
-          name: "InvalidSize",
+          code: "InvalidSize",
           message: "File large",
         },
       });
@@ -42,7 +42,7 @@ const errorHandler = (req, res, next) => {
     invalidType: async (res) => {
       res.status(400).json({
         err: {
-          name: "InvalidType",
+          code: "InvalidType",
           message: "File format png or jpeg",
         },
       });
@@ -50,7 +50,7 @@ const errorHandler = (req, res, next) => {
     invalidPublicId: async (res) => {
       res.status(400).json({
         err: {
-          name: "InvalidPublicId",
+          code: "InvalidPublicId",
           message: "No checked image",
         },
       });
@@ -58,7 +58,7 @@ const errorHandler = (req, res, next) => {
     invalidUploadImage: async (res) => {
       res.status(400).json({
         err: {
-          name: "InvalidUploadImage",
+          code: "InvalidUploadImage",
           message: "No Upload Image is required",
         },
       });
@@ -66,7 +66,7 @@ const errorHandler = (req, res, next) => {
     notFoundUser: async (res) => {
       res.status(400).json({
         err: {
-          name: "NotFound",
+          code: "NotFound",
           message: "User does not exist.",
         },
       });
@@ -74,7 +74,7 @@ const errorHandler = (req, res, next) => {
     invalidAuthorization: async (res) => {
       res.status(400).json({
         err: {
-          name: "InvalidAuthorization",
+          code: "InvalidAuthorization",
           message: "Please login or register",
         },
       });
@@ -82,7 +82,7 @@ const errorHandler = (req, res, next) => {
     validationError: async (res, err) => {
       res.status(400).json({
         err: {
-          name: "ValidationError",
+          code: "ValidationError",
           error: err,
         },
       });
@@ -90,7 +90,7 @@ const errorHandler = (req, res, next) => {
     codeValidationError: async (res) => {
       res.status(400).json({
         err: {
-          name: "ValidationError",
+          code: "ValidationError",
           message: "Code not entered.",
         },
       });
@@ -98,7 +98,7 @@ const errorHandler = (req, res, next) => {
     invalidCode: async (res) => {
       res.status(400).json({
         err: {
-          name: "ValidationError",
+          code: "ValidationError",
           message: "Code not valid.",
         },
       });
@@ -106,7 +106,7 @@ const errorHandler = (req, res, next) => {
     alreadyExistPhone: async (res) => {
       res.status(400).json({
         err: {
-          name: "AlreadyExist",
+          code: "AlreadyExist",
           message: "The phone number already exists.",
         },
       });
@@ -124,6 +124,14 @@ const errorHandler = (req, res, next) => {
         err: {
           code: "CODE_NOT_VALID",
           message: "Code not valid",
+        },
+      });
+    },
+    bookNotFound: async (res) => {
+      res.status(400).json({
+        err: {
+          code: "NOT_FOUND",
+          message: "Book is not exist",
         },
       });
     },
