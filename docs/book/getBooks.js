@@ -1,8 +1,11 @@
+const { parameters } = require("./getBooksParameters");
+
 module.exports = {
   get: {
     summary: "Endpoint for get books.",
     tags: ["Book"],
-    operationId: "getBook",
+    operationId: "getBooks",
+    parameters,
     responses: {
       200: {
         description: "Get all books",

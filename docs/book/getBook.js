@@ -1,31 +1,21 @@
 module.exports = {
-  put: {
-    summary: "Endpoint for update book.",
+  get: {
+    summary: "Endpoint for get one book.",
     tags: ["Book"],
-    operationId: "updateBook",
-    requestBody: {
-      required: true,
-      content: {
-        "application/json": {
-          schema: {
-            $ref: "#/components/schemas/ChangeBook",
-          },
-        },
-      },
-    },
+    operationId: "getBook",
     responses: {
       200: {
-        description: "Updated book message successful",
+        description: "Get one book by id",
         content: {
           "application/json": {
             schema: {
-              $ref: "#/components/schemas/Success",
+              $ref: "#/components/schemas/Book",
             },
           },
         },
       },
       400: {
-        description: "Invalid request has been sent",
+        description: "Book not found",
         content: {
           "application/json": {
             schema: {

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { permitted } = require("../config/enums");
 
 const bookSchema = new mongoose.Schema({
-  name: {
+  title: {
     type: String,
     required: true,
     trim: true,
@@ -13,7 +13,7 @@ const bookSchema = new mongoose.Schema({
     trim: true,
   },
   tags: {
-    type: [{ type: String, enum: permitted }],
+    type: [{ type: String }],
   },
   author: {
     type: String,
@@ -22,18 +22,23 @@ const bookSchema = new mongoose.Schema({
   },
   ratings: {
     type: Number,
-    required: true,
     default: null,
   },
   students: {
     type: Number,
-    required: true,
     default: 0,
   },
   sections: {
     type: Number,
     required: true,
     default: 1,
+  },
+  bookmark: {
+    type: Boolean,
+    default: false,
+  },
+  category: {
+    type: [{ type: String }],
   },
 });
 

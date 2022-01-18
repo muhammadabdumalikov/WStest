@@ -1,25 +1,43 @@
 const Books = require("../models/bookModel");
+const APIfeatures = require("./APIfeatures");
 
 const bookCtrl = {
   getBooks: async (req, res) => {
     try {
-      const books = await Books.find({});
+      const features = new APIfeatures(Books.find(), req.query)
+        .filtering()
+        .sorting()
+        .paginating();
+
+      const books = await features.query;
 
       res.json({ status: "OK", length: books.length, books });
     } catch (err) {
       return res.error.handleError(res, err);
     }
   },
+  getBook: async (req, res) => {
+    try {
+      const book = await Books.findById(req.params.id);
+      if (!book) return res.error.bookNotFound(res);
+
+      res.json(book);
+    } catch (err) {
+      return res.error.handleError(res, err);
+    }
+  },
   createBook: async (req, res) => {
     try {
-      const { name, description, tags, author, sections } = req.body;
+      const { title, description, tags, author, sections, bookmark, category } =
+        req.body;
 
       const newBook = new Books({
-        name,
+        title,
         description,
         tags,
         author,
         sections,
+        category,
       });
       await newBook.save();
 
@@ -30,7 +48,18 @@ const bookCtrl = {
   },
   updateBook: async (req, res) => {
     try {
-      const book = await Books.findOneAndUpdate(req.params.id, req.body);
+      const { title, description, tags, author, sections, bookmark, category } =
+        req.body;
+
+      const book = await Books.findByIdAndUpdate(req.params.id, {
+        title,
+        description,
+        tags,
+        author,
+        sections,
+        bookmark,
+        category,
+      });
       if (!book) return res.error.bookNotFound(res);
 
       res.json({ message: "Book updated" });
@@ -40,7 +69,7 @@ const bookCtrl = {
   },
   deleteBook: async (req, res) => {
     try {
-      const book = await Books.findOneAndDelete(req.params.id);
+      const book = await Books.findByIdAndDelete(req.params.id);
       if (!book) return res.error.bookNotFound(res);
 
       res.json({ message: "Book deleted" });

@@ -1,5 +1,7 @@
-const userRequired = ["phone", "name"];
 const { permitted } = require("../src/config/enums");
+
+const userRequired = ["phone", "name"];
+const bookRequired = ["title", "description", "author", "sections"];
 
 const user = {
   name: {
@@ -33,7 +35,7 @@ const user = {
 };
 
 const book = {
-  name: {
+  title: {
     type: "string",
     description: "Book's name",
   },
@@ -46,7 +48,6 @@ const book = {
     description: "Book's tags",
     items: {
       type: "string",
-      enum: permitted,
     },
   },
   author: {
@@ -64,6 +65,13 @@ const book = {
   sections: {
     type: "number",
     description: "Book's section number",
+  },
+  category: {
+    type: "array",
+    description: "Book's category",
+    items: {
+      type: "string",
+    },
   },
 };
 
@@ -178,29 +186,52 @@ module.exports = {
       // Books
       Book: {
         type: "object",
-        userRequired,
+        bookRequired,
         description: "All user data",
         properties: {
           _id: {
             type: "string",
             description: "Book's identification number",
           },
-          name: book.name,
+          title: book.title,
           description: book.description,
           tags: book.tags,
           author: book.author,
           ratings: book.ratings,
           students: book.students,
           sections: book.sections,
+          category: book.category,
         },
         example: {
-          name: "Godfather",
+          title: "Godfather",
           description: "Criminal book",
           tags: ["political", "biography"],
           author: "Mario Puzo",
           ratings: 4.3,
           students: 1,
           sections: 576,
+          category: ["special", "political"],
+        },
+      },
+      ChangeBook: {
+        type: "object",
+        bookRequired,
+        description: "All user data",
+        properties: {
+          title: book.title,
+          description: book.description,
+          tags: book.tags,
+          author: book.author,
+          sections: book.sections,
+          category: book.category,
+        },
+        example: {
+          title: "Godfather",
+          description: "Criminal book",
+          tags: ["political", "biography"],
+          author: "Mario Puzo",
+          sections: 576,
+          category: ["special", "political"],
         },
       },
 

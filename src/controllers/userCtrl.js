@@ -167,14 +167,14 @@ const createAccessToken = (user) => {
 };
 
 // Verification
-const createVerification = (phone) => {
-  return client.verify
+const createVerification = async (phone) => {
+  return await client.verify
     .services(process.env.TWILIO_SERVICE_ID)
     .verifications.create({ to: phone, channel: "sms" });
 };
 
-const verifyVerification = (phone, code) => {
-  return client.verify
+const verifyVerification = async (phone, code) => {
+  return await client.verify
     .services(process.env.TWILIO_SERVICE_ID)
     .verificationChecks.create({ to: phone, code: code });
 };
