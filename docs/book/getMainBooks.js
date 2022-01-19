@@ -8,7 +8,8 @@ module.exports = {
         schema: {
           type: "number",
         },
-        description: "How many books to return for each section: /book?limit=5",
+        description:
+          "How many books to return for each section: /book/main?limit=5",
       },
     ],
     operationId: "getMainBooks",
