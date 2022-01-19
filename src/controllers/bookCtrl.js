@@ -16,6 +16,24 @@ const bookCtrl = {
       return res.error.handleError(res, err);
     }
   },
+  getMainBooks: async (req, res) => {
+    try {
+      const limit = parseInt(req.query.limit);
+      const special = await Books.find({ category: "special" }).limit(limit);
+      const bestseller = await Books.find({ category: "bestseller" }).limit(
+        limit
+      );
+      const discount = await Books.find({ category: "discount" }).limit(limit);
+      const newBooks = await Books.find({ category: "new" }).limit(limit);
+      const editorChoice = await Books.find({ category: "editorChoice" }).limit(
+        limit
+      );
+
+      res.json({ special, bestseller, discount, newBooks, editorChoice });
+    } catch (err) {
+      return res.error.handleError(res, err);
+    }
+  },
   getBook: async (req, res) => {
     try {
       const book = await Books.findById(req.params.id);

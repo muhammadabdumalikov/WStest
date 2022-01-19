@@ -7,4 +7,9 @@ exports.permitted = [
   "political",
   "personal",
   "biography",
+  "special",
+  "bestseller",
+  "discount",
+  "new",
+  "editorChoice",
 ];

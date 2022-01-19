@@ -38,7 +38,7 @@ const bookSchema = new mongoose.Schema({
     default: false,
   },
   category: {
-    type: [{ type: String }],
+    type: [{ type: String, enum: permitted }],
   },
 });
 

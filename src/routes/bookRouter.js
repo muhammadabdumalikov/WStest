@@ -3,6 +3,8 @@ const bookCtrl = require("../controllers/bookCtrl");
 
 router.route("/book").get(bookCtrl.getBooks).post(bookCtrl.createBook);
 
+router.get("/book/main", bookCtrl.getMainBooks);
+
 router
   .route("/book/:id")
   .get(bookCtrl.getBook)
