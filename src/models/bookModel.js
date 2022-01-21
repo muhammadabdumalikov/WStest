@@ -16,6 +16,16 @@ const bookSchema = new mongoose.Schema(
     tags: {
       type: [{ type: String }],
     },
+    image: {
+      url: {
+        type: String,
+        required: true,
+      },
+      publicId: {
+        type: String,
+        required: true,
+      },
+    },
     author: {
       type: String,
       required: true,

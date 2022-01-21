@@ -5,6 +5,7 @@ if (process.env.NODE_ENV !== "production") {
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 const swaggerUI = require("swagger-ui-express");
 
 const db = require("./config/database");
@@ -18,6 +19,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(cookieParser());
+app.use(
+  fileUpload({
+    useTempFiles: true,
+  })
+);
 app.use(errorHandler);
 
 // Routes

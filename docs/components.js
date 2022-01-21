@@ -85,6 +85,13 @@ const book = {
       type: "string",
     },
   },
+  image: {
+    type: "object",
+    properties: {
+      url: { type: "string", description: "Book image url" },
+      publicId: { type: "string", description: "Book image id for cloud" },
+    },
+  },
 };
 
 module.exports = {
