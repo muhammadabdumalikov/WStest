@@ -4,6 +4,7 @@ const getBook = require("./getBook");
 const createBook = require("./createBook");
 const updateBook = require("./updateBook");
 const deleteBook = require("./deleteBook");
+const bookStatus = require("./changeBookStatus");
 
 module.exports = {
   "/book": {
@@ -12,6 +13,9 @@ module.exports = {
   },
   "/book/main": {
     ...getMainBooks,
+  },
+  "/book/status": {
+    ...bookStatus,
   },
   "/book/:id": {
     ...getBook,

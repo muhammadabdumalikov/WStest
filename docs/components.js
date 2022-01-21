@@ -35,6 +35,10 @@ const user = {
 };
 
 const book = {
+  _id: {
+    type: "string",
+    description: "Book's identification number",
+  },
   title: {
     type: "string",
     description: "Book's name",
@@ -65,6 +69,14 @@ const book = {
   sections: {
     type: "number",
     description: "Book's section number",
+  },
+  rate: {
+    type: "number",
+    description: "User rating for book",
+  },
+  process: {
+    type: "number",
+    description: "What percentage of the book was read",
   },
   category: {
     type: "array",
@@ -189,10 +201,7 @@ module.exports = {
         bookRequired,
         description: "All user data",
         properties: {
-          _id: {
-            type: "string",
-            description: "Book's identification number",
-          },
+          _id: book._id,
           title: book.title,
           description: book.description,
           tags: book.tags,
@@ -201,6 +210,8 @@ module.exports = {
           students: book.students,
           sections: book.sections,
           category: book.category,
+          rate: book.rate,
+          process: book.process,
         },
         example: {
           title: "Godfather",
@@ -211,6 +222,8 @@ module.exports = {
           students: 1,
           sections: 576,
           category: ["special", "political"],
+          rate: 4,
+          process: 20,
         },
       },
       ChangeBook: {
@@ -232,6 +245,20 @@ module.exports = {
           author: "Mario Puzo",
           sections: 576,
           category: ["special", "political"],
+        },
+      },
+      StatusBook: {
+        type: "object",
+        description: "Change book status",
+        properties: {
+          bookId: book._id,
+          rate: book.rate,
+          process: book.process,
+        },
+        example: {
+          bookId: "61e6af73131720d71dd4eabc",
+          rate: 4,
+          process: 20,
         },
       },
 
