@@ -219,6 +219,7 @@ module.exports = {
           category: book.category,
           rate: book.rate,
           process: book.process,
+          image: book.image,
         },
         example: {
           title: "Godfather",
@@ -231,6 +232,10 @@ module.exports = {
           category: ["special", "political"],
           rate: 4,
           process: 20,
+          image: {
+            url: "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
+            publicId: "Zehniyat/akyb5ryk89z2rze2yfkq",
+          },
         },
       },
       ChangeBook: {
@@ -244,6 +249,7 @@ module.exports = {
           author: book.author,
           sections: book.sections,
           category: book.category,
+          image: book.image,
         },
         example: {
           title: "Godfather",
@@ -252,6 +258,10 @@ module.exports = {
           author: "Mario Puzo",
           sections: 576,
           category: ["special", "political"],
+          image: {
+            url: "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
+            publicId: "Zehniyat/akyb5ryk89z2rze2yfkq",
+          },
         },
       },
       StatusBook: {
