@@ -167,8 +167,17 @@ const bookCtrl = {
   },
   createBook: async (req, res) => {
     try {
-      const { title, description, tags, author, sections, image, category } =
-        req.body;
+      const {
+        title,
+        description,
+        tags,
+        author,
+        sections,
+        image,
+        category,
+        price,
+        discountPrice,
+      } = req.body;
 
       const newBook = new Books({
         title,
@@ -178,6 +187,8 @@ const bookCtrl = {
         sections,
         category,
         image,
+        price,
+        discountPrice,
       });
       await newBook.save();
 
@@ -197,6 +208,8 @@ const bookCtrl = {
         bookmark,
         category,
         image,
+        price,
+        discountPrice,
       } = req.body;
 
       const book = await Books.findByIdAndUpdate(req.params.id, {
@@ -208,6 +221,8 @@ const bookCtrl = {
         bookmark,
         category,
         image,
+        price,
+        discountPrice,
       });
       if (!book) return res.error.bookNotFound(res);
 

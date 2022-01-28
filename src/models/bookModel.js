@@ -59,6 +59,8 @@ const bookSchema = new mongoose.Schema(
       type: Number,
       default: null,
     },
+    price: { type: Number, default: null },
+    discountPrice: { type: Number, default: null },
   },
   {
     timestamps: true,

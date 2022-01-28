@@ -78,6 +78,14 @@ const book = {
     type: "number",
     description: "What percentage of the book was read",
   },
+  price: {
+    type: "number",
+    description: "Book's price",
+  },
+  discountPrice: {
+    type: "number",
+    description: "Book's discount price",
+  },
   category: {
     type: "array",
     description: "Book's category",
@@ -220,6 +228,8 @@ module.exports = {
           rate: book.rate,
           process: book.process,
           image: book.image,
+          price: book.price,
+          discountPrice: book.discountPrice,
         },
         example: {
           title: "Godfather",
@@ -236,6 +246,8 @@ module.exports = {
             url: "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
             publicId: "Zehniyat/akyb5ryk89z2rze2yfkq",
           },
+          price: 12000,
+          discountPrice: 8000,
         },
       },
       ChangeBook: {
@@ -250,6 +262,8 @@ module.exports = {
           sections: book.sections,
           category: book.category,
           image: book.image,
+          price: book.price,
+          discountPrice: book.discountPrice,
         },
         example: {
           title: "Godfather",
@@ -262,6 +276,8 @@ module.exports = {
             url: "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
             publicId: "Zehniyat/akyb5ryk89z2rze2yfkq",
           },
+          price: 12000,
+          discountPrice: 8000,
         },
       },
       StatusBook: {
