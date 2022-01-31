@@ -1,8 +1,8 @@
 module.exports = {
   put: {
-    summary: "Endpoint for update user information.",
+    summary: "Endpoint verify for update phone number.",
     tags: ["User"],
-    operationId: "userUpdate",
+    operationId: "userUpdateVerify",
     security: [
       {
         bearerAuth: [],
@@ -13,7 +13,7 @@ module.exports = {
       content: {
         "application/json": {
           schema: {
-            $ref: "#/components/schemas/ChangeUser",
+            $ref: "#/components/schemas/Verify",
           },
         },
       },

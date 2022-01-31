@@ -130,22 +130,46 @@ const userCtrl = {
   },
   updateUser: async (req, res) => {
     try {
-      const update = req.body;
+      const { name, region, age, email } = req.body;
       const { phone } = req.body;
 
-      if (phone)
-        return res.status(400).json({
-          err: { name: "Invalid", message: "Can not change the number" },
-        });
-
-      const user = await Users.findByIdAndUpdate(req.user.id, update);
+      const user = await Users.findByIdAndUpdate(req.user.id, {
+        name,
+        region,
+        age,
+        email,
+      });
       if (!user) return res.error.notFoundUser(res);
+
+      if (phone && user.phone !== phone) {
+        await createVerification(phone);
+        return res.json({ message: `User updated and code sent to ${phone}` });
+      }
 
       res.json({ message: "User updated" });
     } catch (err) {
       return res.error.handleError(res, err);
     }
   },
+  updateVerify: async (req, res) => {
+    try {
+      const { phone, code } = req.body;
+
+      if (!code) return res.error.codeValidationError(res);
+
+      const info = await verifyVerification(phone, code);
+
+      if (!info.valid) return res.error.invalidCode(res);
+
+      const user = await Users.findByIdAndUpdate(req.user.id, { phone });
+      if (!user) return res.error.notFoundUser(res);
+
+      res.json({ message: "User phone number updated" });
+    } catch (err) {
+      return res.error.handleError(res, err);
+    }
+  },
+
   deleteUser: async (req, res) => {
     try {
       const user = await Users.findByIdAndDelete(req.user.id);

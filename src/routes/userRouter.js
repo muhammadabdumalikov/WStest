@@ -12,6 +12,7 @@ router.post("/login/verify", userCtrl.loginVerify);
 
 router.get("/logout", userCtrl.logout);
 
-router.get("/me", auth, userCtrl.getUser);
+router.route("/me").get(auth, userCtrl.getUser).put(auth, userCtrl.updateUser);
+router.put("/me/verify", auth, userCtrl.updateVerify);
 
 module.exports = router;

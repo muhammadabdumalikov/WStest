@@ -5,6 +5,7 @@ const loginVerify = require("./loginVerify");
 const logout = require("./logout");
 const info = require("./info");
 const update = require("./update");
+const updateVerify = require("./updateVerify");
 const userDelete = require("./delete");
 
 module.exports = {
@@ -25,11 +26,9 @@ module.exports = {
   },
   "/me": {
     ...info,
+    ...update,
   },
-  // "/me": {
-  //   ...update,
-  // },
-  // "/delete": {
-  //   ...userDelete,
-  // },
+  "/me/verify": {
+    ...updateVerify,
+  },
 };

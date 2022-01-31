@@ -130,6 +130,25 @@ module.exports = {
           region: "Tashkent",
         },
       },
+      ChangeUser: {
+        type: "object",
+        description: "User data",
+        properties: {
+          name: user.name,
+          phone: user.phone,
+          age: user.age,
+          email: user.email,
+          region: user.region,
+          interests: user.interests,
+        },
+        example: {
+          name: "Falonchi Falonchiyev",
+          phone: "+998901234567",
+          age: 18,
+          email: "mail@example.com",
+          region: "Tashkent",
+        },
+      },
       Register: {
         type: "object",
         userRequired,
@@ -299,10 +318,6 @@ module.exports = {
       Success: {
         type: "object",
         properties: {
-          code: {
-            type: "string",
-            description: "Success code",
-          },
           message: {
             type: "string",
             description: "Success message",
