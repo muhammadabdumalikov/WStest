@@ -27,6 +27,7 @@ module.exports = {
   "/me": {
     ...info,
     ...update,
+    ...userDelete,
   },
   "/me/verify": {
     ...updateVerify,
