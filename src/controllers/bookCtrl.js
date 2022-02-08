@@ -5,7 +5,7 @@ const APIfeatures = require("./APIfeatures");
 const bookCtrl = {
   getBooks: async (req, res) => {
     try {
-      const features = new APIfeatures(Books.find(), req.query)
+      const features = new APIfeatures(Books.find().lean(), req.query)
         .filtering()
         .sorting()
         .paginating();
@@ -16,13 +16,34 @@ const bookCtrl = {
           const bookStatus = await BookStatus.findOne({
             bookId: book._id,
             userId: req.user.id,
-          });
-          if (bookStatus) {
-            book.rate = bookStatus.rate;
-            book.process = bookStatus.process;
-          }
+          })
+            .lean()
+            .select("rate process bookmark");
 
-          return book;
+          return { ...book, ...bookStatus };
+        })
+      );
+
+      res.json({ status: "OK", length: books.length, books });
+    } catch (err) {
+      return res.error.handleError(res, err);
+    }
+  },
+  getBookmarkBooks: async (req, res) => {
+    try {
+      let books = await BookStatus.find({
+        bookmark: true,
+        userId: req.user.id,
+      })
+        .lean()
+        .select("rate process bookmark bookId");
+
+      books = await Promise.all(
+        books.map(async (bookStatus) => {
+          const book = await Books.findById(bookStatus.bookId).lean();
+
+          delete bookStatus["bookId"];
+          return { ...book, ...bookStatus };
         })
       );
 
@@ -35,83 +56,77 @@ const bookCtrl = {
     try {
       const limit = parseInt(req.query.limit);
 
-      let special = await Books.find({ category: "special" }).limit(limit);
+      let special = await Books.find({ category: "special" })
+        .limit(limit)
+        .lean();
       special = await Promise.all(
         special.map(async (book) => {
           const bookStatus = await BookStatus.findOne({
             bookId: book._id,
             userId: req.user.id,
-          });
-          if (bookStatus) {
-            book.rate = bookStatus.rate;
-            book.process = bookStatus.process;
-          }
+          })
+            .lean()
+            .select("rate process bookmark");
 
-          return book;
+          return { ...book, ...bookStatus };
         })
       );
-      let bestseller = await Books.find({ category: "bestseller" }).limit(
-        limit
-      );
+      let bestseller = await Books.find({ category: "bestseller" })
+        .limit(limit)
+        .lean();
       bestseller = await Promise.all(
         bestseller.map(async (book) => {
           const bookStatus = await BookStatus.findOne({
             bookId: book._id,
             userId: req.user.id,
-          });
-          if (bookStatus) {
-            book.rate = bookStatus.rate;
-            book.process = bookStatus.process;
-          }
+          })
+            .lean()
+            .select("rate process bookmark");
 
-          return book;
+          return { ...book, ...bookStatus };
         })
       );
-      let discount = await Books.find({ category: "discount" }).limit(limit);
+      let discount = await Books.find({ category: "discount" })
+        .limit(limit)
+        .lean();
       discount = await Promise.all(
         discount.map(async (book) => {
           const bookStatus = await BookStatus.findOne({
             bookId: book._id,
             userId: req.user.id,
-          });
-          if (bookStatus) {
-            book.rate = bookStatus.rate;
-            book.process = bookStatus.process;
-          }
+          })
+            .lean()
+            .select("rate process bookmark");
 
-          return book;
+          return { ...book, ...bookStatus };
         })
       );
-      let newBooks = await Books.find({ category: "new" }).limit(limit);
+      let newBooks = await Books.find({ category: "new" }).limit(limit).lean();
       newBooks = await Promise.all(
         newBooks.map(async (book) => {
           const bookStatus = await BookStatus.findOne({
             bookId: book._id,
             userId: req.user.id,
-          });
-          if (bookStatus) {
-            book.rate = bookStatus.rate;
-            book.process = bookStatus.process;
-          }
+          })
+            .lean()
+            .select("rate process bookmark");
 
-          return book;
+          return { ...book, ...bookStatus };
         })
       );
-      let editorChoice = await Books.find({ category: "editorChoice" }).limit(
-        limit
-      );
+      let editorChoice = await Books.find({ category: "editorChoice" })
+        .limit(limit)
+        .lean();
       editorChoice = await Promise.all(
         editorChoice.map(async (book) => {
           const bookStatus = await BookStatus.findOne({
             bookId: book._id,
             userId: req.user.id,
-          });
-          if (bookStatus) {
-            book.rate = bookStatus.rate;
-            book.process = bookStatus.process;
-          }
+          })
+            .lean()
+            .select("rate process bookmark");
 
-          return book;
+          return { ...book, ...bookStatus };
         })
       );
 
@@ -122,40 +137,44 @@ const bookCtrl = {
   },
   getBook: async (req, res) => {
     try {
-      let book = await Books.findById(req.params.id);
+      let book = await Books.findById(req.params.id).lean();
       if (!book) return res.error.bookNotFound(res);
 
       const bookStatus = await BookStatus.findOne({
         bookId: book._id,
         userId: req.user.id,
-      });
-      if (bookStatus) {
-        book.rate = bookStatus.rate;
-        book.process = bookStatus.process;
-      }
+      })
+        .lean()
+        .select("rate process bookmark");
 
-      res.json(book);
+      res.json({ ...book, ...bookStatus });
     } catch (err) {
       return res.error.handleError(res, err);
     }
   },
   statusBook: async (req, res) => {
     try {
-      let { bookId, rate, process } = req.body;
+      let { rate, process, bookmark } = req.body;
       const userId = req.user.id;
+      const bookId = req.params.id;
 
       rate = rate && Math.floor(rate);
       process = process && Math.floor(process);
 
       const bookStatus = await BookStatus.findOne({ bookId, userId });
       if (bookStatus) {
-        await BookStatus.findByIdAndUpdate(bookStatus._id, { rate, process });
+        await BookStatus.findByIdAndUpdate(bookStatus._id, {
+          rate,
+          process,
+          bookmark,
+        });
       } else {
         const newBookStatus = new BookStatus({
           bookId,
           userId,
           rate,
           process,
+          bookmark,
         });
         await newBookStatus.save();
       }

@@ -5,7 +5,9 @@ router.route("/book").get(bookCtrl.getBooks).post(bookCtrl.createBook);
 
 router.get("/book/main", bookCtrl.getMainBooks);
 
-router.post("/book/status", bookCtrl.statusBook);
+router.get("/book/bookmarks", bookCtrl.getBookmarkBooks);
+
+router.post("/book/:id/status", bookCtrl.statusBook);
 
 router
   .route("/book/:id")

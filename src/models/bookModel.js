@@ -44,20 +44,8 @@ const bookSchema = new mongoose.Schema(
       required: true,
       default: 1,
     },
-    bookmark: {
-      type: Boolean,
-      default: false,
-    },
     category: {
       type: [{ type: String, enum: permitted }],
-    },
-    rate: {
-      type: Number,
-      default: null,
-    },
-    process: {
-      type: Number,
-      default: null,
     },
     price: { type: Number, default: null },
     discountPrice: { type: Number, default: null },

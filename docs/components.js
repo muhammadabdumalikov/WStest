@@ -78,6 +78,10 @@ const book = {
     type: "number",
     description: "What percentage of the book was read",
   },
+  bookmark: {
+    type: "boolean",
+    description: "Book is bookmark",
+  },
   price: {
     type: "number",
     description: "Book's price",
@@ -249,6 +253,7 @@ module.exports = {
           image: book.image,
           price: book.price,
           discountPrice: book.discountPrice,
+          bookmark: book.bookmark,
         },
         example: {
           title: "Godfather",
@@ -267,6 +272,7 @@ module.exports = {
           },
           price: 12000,
           discountPrice: 8000,
+          bookmark: true,
         },
       },
       ChangeBook: {
@@ -303,14 +309,15 @@ module.exports = {
         type: "object",
         description: "Change book status",
         properties: {
-          bookId: book._id,
           rate: book.rate,
           process: book.process,
+          bookmark: book.bookmark,
         },
         example: {
           bookId: "61e6af73131720d71dd4eabc",
           rate: 4,
           process: 20,
+          bookmark: true,
         },
       },
 

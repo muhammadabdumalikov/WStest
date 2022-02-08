@@ -14,11 +14,15 @@ const bookRatingSchema = new mongoose.Schema(
     },
     rate: {
       type: Number,
-      required: true,
+      default: null,
     },
     process: {
       type: Number,
       default: null,
+    },
+    bookmark: {
+      type: Boolean,
+      default: false,
     },
   },
   {
