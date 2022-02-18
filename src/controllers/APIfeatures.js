@@ -15,7 +15,17 @@ class APIfeatures {
       .replace(/\b(gte|gt|lt|lte|regex|in)\b/g, (match) => "$" + match)
       .split(",");
 
-    this.query.find(JSON.parse(queryStr));
+    let queries = JSON.parse(queryStr);
+    console.log(queries);
+
+    if ("title" in queries && "$regex" in queries.title) {
+      queries.title.$regex = new RegExp("^" + queries.title.$regex, "i");
+    }
+    if ("author" in queries && "$regex" in queries.author) {
+      queries.author.$regex = new RegExp("^" + queries.author.$regex, "i");
+    }
+
+    this.query.find(queries);
 
     return this;
   }
