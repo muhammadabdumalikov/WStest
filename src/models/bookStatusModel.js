@@ -7,11 +7,11 @@ const bookRatingSchema = new mongoose.Schema(
             ref: "Books",
             required: true,
         },
-        userId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Users",
-            required: true,
-        },
+        // userId: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "Users",
+        //     required: true,
+        // },
         rate: {
             type: Number,
             default: null,

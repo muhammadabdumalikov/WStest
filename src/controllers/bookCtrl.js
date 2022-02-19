@@ -6,7 +6,10 @@ const APIfeatures = require("./APIfeatures");
 const bookCtrl = {
     getBooks: async (req, res) => {
         try {
-            const features = new APIfeatures(Books.find().lean(), req.query)
+            const features = new APIfeatures(
+                Books.find().sort({ title: "desc", test: -1 }).lean(),
+                req.query
+            )
                 .filtering()
                 .sorting()
                 .paginating();
@@ -16,7 +19,7 @@ const bookCtrl = {
                 books.map(async (book) => {
                     const bookStatus = await BookStatus.findOne({
                         bookId: book._id,
-                        userId: req.user.id,
+                        // userId: req.user.id,
                     })
                         .lean()
                         .select("rate process bookmark");
@@ -35,17 +38,17 @@ const bookCtrl = {
             const books = await Books.find()
                 .populate("categories", "-books")
                 .lean();
-                
+
             res.json(books);
         } catch (error) {
-            console.log(error);
+            return res.error.handleError(res, err);
         }
     },
     getBookmarkBooks: async (req, res) => {
         try {
             let books = await BookStatus.find({
                 bookmark: true,
-                userId: req.user.id,
+                // userId: req.user.id,
             })
                 .lean()
                 .select("rate process bookmark bookId");
@@ -68,14 +71,12 @@ const bookCtrl = {
         try {
             const limit = parseInt(req.query.limit);
 
-            let special = await Books.find({ category: "special" })
-                .limit(limit)
-                .lean();
+            let special = await Books.find().limit(limit).lean();
             special = await Promise.all(
                 special.map(async (book) => {
                     const bookStatus = await BookStatus.findOne({
                         bookId: book._id,
-                        userId: req.user.id,
+                        // userId: req.user.id,
                     })
                         .lean()
                         .select("rate process bookmark");
@@ -83,14 +84,15 @@ const bookCtrl = {
                     return { ...book, ...bookStatus };
                 })
             );
-            let bestseller = await Books.find({ category: "bestseller" })
+            let bestseller = await Books.find()
+                .sort({ rating: "desc", test: -1 })
                 .limit(limit)
                 .lean();
             bestseller = await Promise.all(
                 bestseller.map(async (book) => {
                     const bookStatus = await BookStatus.findOne({
                         bookId: book._id,
-                        userId: req.user.id,
+                        // userId: req.user.id,
                     })
                         .lean()
                         .select("rate process bookmark");
@@ -98,14 +100,17 @@ const bookCtrl = {
                     return { ...book, ...bookStatus };
                 })
             );
-            let discount = await Books.find({ category: "discount" })
+            let discount = await Books.where("discountPrice")
+                .equals(null)
                 .limit(limit)
                 .lean();
+
+            console.log(discount)
             discount = await Promise.all(
                 discount.map(async (book) => {
                     const bookStatus = await BookStatus.findOne({
                         bookId: book._id,
-                        userId: req.user.id,
+                        // userId: req.user.id,
                     })
                         .lean()
                         .select("rate process bookmark");
@@ -113,14 +118,14 @@ const bookCtrl = {
                     return { ...book, ...bookStatus };
                 })
             );
-            let newBooks = await Books.find({ category: "new" })
+            let newBooks = await Books.find()
                 .limit(limit)
                 .lean();
             newBooks = await Promise.all(
                 newBooks.map(async (book) => {
                     const bookStatus = await BookStatus.findOne({
                         bookId: book._id,
-                        userId: req.user.id,
+                        // userId: req.user.id,
                     })
                         .lean()
                         .select("rate process bookmark");
@@ -128,14 +133,14 @@ const bookCtrl = {
                     return { ...book, ...bookStatus };
                 })
             );
-            let editorChoice = await Books.find({ category: "editorChoice" })
+            let editorChoice = await Books.find()
                 .limit(limit)
                 .lean();
             editorChoice = await Promise.all(
                 editorChoice.map(async (book) => {
                     const bookStatus = await BookStatus.findOne({
                         bookId: book._id,
-                        userId: req.user.id,
+                        // userId: req.user.id,
                     })
                         .lean()
                         .select("rate process bookmark");
@@ -156,10 +161,11 @@ const bookCtrl = {
 
             const bookStatus = await BookStatus.findOne({
                 bookId: book._id,
-                userId: req.user.id,
+                // userId: req.user.id, //???
             })
                 .lean()
-                .select("rate process bookmark");
+                .select("rate process bookmark")
+                .sort("rate -test");
 
             res.json({ ...book, ...bookStatus });
         } catch (err) {
@@ -169,13 +175,13 @@ const bookCtrl = {
     statusBook: async (req, res) => {
         try {
             let { rate, process, bookmark } = req.body;
-            const userId = req.user.id;
+            // const userId = req.user.id;
             const bookId = req.params.id;
 
             rate = rate && Math.floor(rate);
             process = process && Math.floor(process);
 
-            const bookStatus = await BookStatus.findOne({ bookId, userId });
+            const bookStatus = await BookStatus.findOne({ bookId });
             if (bookStatus) {
                 await BookStatus.findByIdAndUpdate(bookStatus._id, {
                     rate,
@@ -185,7 +191,7 @@ const bookCtrl = {
             } else {
                 const newBookStatus = new BookStatus({
                     bookId,
-                    userId,
+                    // userId,
                     rate,
                     process,
                     bookmark,
@@ -231,9 +237,12 @@ const bookCtrl = {
                     $push: { books: newBook._id },
                 },
                 { new: true, useFindAndModify: false }
-            );
-
-            res.status(201).json({ message: "Created book" });
+            ).then((data) => {
+                if (data === null) {
+                    res.status(201).json({ message: "Cannot find category" });
+                }
+                res.status(201).json({ message: "Created book" });
+            });
         } catch (err) {
             return res.error.handleError(res, err);
         }
