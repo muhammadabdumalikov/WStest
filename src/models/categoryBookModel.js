@@ -8,6 +8,10 @@ const categoryBookModel = new mongoose.Schema(
             unique: true,
             trim: true,
         },
+        isPublic: {
+            type: Boolean,
+            default: false,
+        },
         icon: {
             url: {
                 type: String,

@@ -28,11 +28,12 @@ const categoryCtrl = {
     },
     updateCategory: async (req, res) => {
         try {
-            const { categoryName, icon } = req.body;
+            const { categoryName, icon, isPublic } = req.body;
 
             const category = await Categories.findByIdAndUpdate(req.params.id, {
                 name: categoryName,
                 icon: icon,
+                isPublic: isPublic
             });
 
             if (!category) return res.error.categoryNotFound(res);
