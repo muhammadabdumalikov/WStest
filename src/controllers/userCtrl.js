@@ -1,4 +1,5 @@
 const Users = require("../models/userModel");
+const Sessions = require("../models/sessionModel");
 const jwt = require("jsonwebtoken");
 const { validationResult, check } = require("express-validator");
 const client = require("twilio")(
@@ -75,10 +76,16 @@ const userCtrl = {
 
             if (!info.valid) return res.error.codeNotValid(res);
 
-            await Users.findOneAndUpdate({ phone }, { verified: true });
+            const session = new Sessions({ session_user_device: "IOS" });
+            console.log(session);
+
+            await Users.findOneAndUpdate(
+                { phone },
+                { verified: true, $push: { sessions: session._id } }
+            );
 
             // Then create jsonwebtoken to authentication
-            const accessToken = createAccessToken({ id: user._id });
+            const accessToken = createAccessToken({ id: session._id });
 
             res.status(201).json({ accessToken });
         } catch (err) {
@@ -91,6 +98,13 @@ const userCtrl = {
 
             const user = await Users.findOne({ phone });
             if (!user) return res.error.notFoundUser(res);
+            if (user.sessions.length == 3)
+                return res.status(401).json({
+                    err: {
+                        name: "InvalidAuthorization",
+                        message: "You cannot login with this profile",
+                    },
+                });
 
             await createVerification(phone);
 
@@ -109,10 +123,16 @@ const userCtrl = {
 
             if (!info.valid) return res.error.invalidCode(res);
 
-            const user = await Users.findOne({ phone });
+            const session = new Sessions({ session_user_device: "IOS" });
+            console.log(req);
+
+            await Users.findOneAndUpdate(
+                { phone },
+                { verified: true, $push: { sessions: session._id } }
+            );
 
             // If login success , create access token and refresh token
-            const accessToken = createAccessToken({ id: user._id });
+            const accessToken = createAccessToken({ id: session._id });
 
             res.json({ accessToken });
         } catch (err) {
