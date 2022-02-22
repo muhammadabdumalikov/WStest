@@ -13,6 +13,10 @@ const bookSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
+        isPublic: {
+            type: Boolean,
+            default: true,
+        },
         tags: {
             type: [{ type: String }],
         },
@@ -43,6 +47,10 @@ const bookSchema = new mongoose.Schema(
             type: Number,
             required: true,
             default: 1,
+        },
+        editorChoice: {
+            type: Boolean,
+            default: false,
         },
         categories: [
             {

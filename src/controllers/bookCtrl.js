@@ -85,7 +85,7 @@ const bookCtrl = {
                 })
             );
             let bestseller = await Books.find()
-                .sort({ rating: "desc", test: -1 })
+                .sort({ rating: -1 })
                 .limit(limit)
                 .lean();
             bestseller = await Promise.all(
@@ -101,11 +101,10 @@ const bookCtrl = {
                 })
             );
             let discount = await Books.where("discountPrice")
-                .equals(null)
+                .ne(null)
                 .limit(limit)
                 .lean();
 
-            console.log(discount)
             discount = await Promise.all(
                 discount.map(async (book) => {
                     const bookStatus = await BookStatus.findOne({
@@ -118,7 +117,15 @@ const bookCtrl = {
                     return { ...book, ...bookStatus };
                 })
             );
-            let newBooks = await Books.find()
+            let newBooks = await Books.find({
+                createdAt: {
+                    // $lt: new Date(new Date().setDate(new Date().getDate() - 3)),
+                    $gte: new Date(
+                        new Date().setDate(new Date().getDate() - 3)
+                    ),
+                },
+            })
+                .sort({ createdAt: -1 })
                 .limit(limit)
                 .lean();
             newBooks = await Promise.all(
@@ -133,7 +140,7 @@ const bookCtrl = {
                     return { ...book, ...bookStatus };
                 })
             );
-            let editorChoice = await Books.find()
+            let editorChoice = await Books.find({ editorChoice: true })
                 .limit(limit)
                 .lean();
             editorChoice = await Promise.all(
@@ -215,6 +222,7 @@ const bookCtrl = {
                 image,
                 categoryId,
                 price,
+                editorChoice,
                 discountPrice,
             } = req.body;
 
@@ -227,22 +235,11 @@ const bookCtrl = {
                 categories: [categoryId],
                 image,
                 price,
+                editorChoice,
                 discountPrice,
             });
             await newBook.save();
 
-            await Category.findByIdAndUpdate(
-                categoryId,
-                {
-                    $push: { books: newBook._id },
-                },
-                { new: true, useFindAndModify: false }
-            ).then((data) => {
-                if (data === null) {
-                    res.status(201).json({ message: "Cannot find category" });
-                }
-                res.status(201).json({ message: "Created book" });
-            });
         } catch (err) {
             return res.error.handleError(res, err);
         }
@@ -258,6 +255,7 @@ const bookCtrl = {
                 bookmark,
                 categoryId,
                 image,
+                editorChoice,
                 price,
                 discountPrice,
             } = req.body;
@@ -271,18 +269,11 @@ const bookCtrl = {
                 bookmark,
                 categoryId,
                 image,
+                editorChoice,
                 price,
                 discountPrice,
             });
             if (!book) return res.error.bookNotFound(res);
-
-            await Category.findByIdAndUpdate(
-                categoryId,
-                {
-                    $push: { books: newBook._id },
-                },
-                { new: true, useFindAndModify: false }
-            );
 
             res.json({ message: "Book updated" });
         } catch (err) {
@@ -295,9 +286,9 @@ const bookCtrl = {
 
             const filtered = await Books.find({
                 $and: [{ $or: [{ title: regex }, { author: regex }] }],
-            });
+            }).lean();
 
-            res.json({ data: filtered });
+            res.json({ length: filtered.length, data: filtered });
         } catch (err) {
             return res.error.handleError(res, err);
         }
