@@ -2,6 +2,7 @@ const Books = require("../models/bookModel");
 const BookStatus = require("../models/bookStatusModel");
 const Category = require("../models/categoryBookModel");
 const APIfeatures = require("./APIfeatures");
+const jwt = require("jsonwebtoken");
 
 const bookCtrl = {
     getBooks: async (req, res) => {
@@ -204,8 +205,8 @@ const bookCtrl = {
                 .paginating();
 
             let books = await features.query;
-            
-            res.json(books)
+
+            res.json(books);
         } catch (err) {
             return res.error.handleError(res, err);
         }
@@ -224,6 +225,19 @@ const bookCtrl = {
                 .sort("rate -test");
 
             res.json({ ...book, ...bookStatus });
+        } catch (err) {
+            return res.error.handleError(res, err);
+        }
+    },
+    getUserBooks: async (req, res) => {
+        try {
+
+            console.log(11111)
+            const {session} = req.session;
+
+            const id = jwt.verify(session, process.env.ACCESS_TOKEN_SECRET);
+
+            res.json(id);
         } catch (err) {
             return res.error.handleError(res, err);
         }

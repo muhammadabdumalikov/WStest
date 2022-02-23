@@ -3,7 +3,7 @@ const Categories = require("../models/categoryBookModel");
 const categoryCtrl = {
     getCategories: async (req, res) => {
         try {
-            const categories = await Categories.find().lean()
+            const categories = await Categories.find().lean();
 
             res.status(200).json(categories);
         } catch (err) {
@@ -33,7 +33,7 @@ const categoryCtrl = {
             const category = await Categories.findByIdAndUpdate(req.params.id, {
                 name: categoryName,
                 icon: icon,
-                isPublic: isPublic
+                isPublic: isPublic,
             });
 
             if (!category) return res.error.categoryNotFound(res);

@@ -1,0 +1,295 @@
+[
+    {
+        "title": "Siz uchun maxsus",
+        "tag": "special",
+        "books": [
+            {
+                "_id": "621482d3d8b7b6125cbc5694",
+                "title": "Marsdagi bolalar",
+                "description": "Criminal book",
+                "isPublic": true,
+                "tags": [
+                    "political",
+                    "biography"
+                ],
+                "image": {
+                    "url": "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
+                    "publicId": "Zehniyat/akyb5ryk89z2rze2yfkq"
+                },
+                "author": "Mario Puzo",
+                "ratings": null,
+                "students": 0,
+                "sections": 576,
+                "categories": [
+                    "62147bb1c6d5e12acb572f14"
+                ],
+                "price": 12000,
+                "discountPrice": null,
+                "createdAt": "2022-02-22T06:29:39.600Z",
+                "updatedAt": "2022-02-22T06:29:39.600Z",
+                "__v": 0
+            },
+            {
+                "_id": "621482ead8b7b6125cbc5698",
+                "title": "Marsdagi bolalar",
+                "description": "Criminal book",
+                "isPublic": true,
+                "tags": [
+                    "political",
+                    "biography"
+                ],
+                "image": {
+                    "url": "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
+                    "publicId": "Zehniyat/akyb5ryk89z2rze2yfkq"
+                },
+                "author": "Mario Puzo",
+                "ratings": null,
+                "students": 0,
+                "sections": 576,
+                "categories": [
+                    "621482c3d8b7b6125cbc5692"
+                ],
+                "price": 12000,
+                "discountPrice": null,
+                "createdAt": "2022-02-22T06:30:02.172Z",
+                "updatedAt": "2022-02-22T06:30:02.172Z",
+                "__v": 0
+            },
+            {
+                "_id": "621490bf54e48a128448f19f",
+                "title": "Osmondagi bolalar",
+                "description": "Criminal book",
+                "isPublic": true,
+                "tags": [
+                    "political",
+                    "biography"
+                ],
+                "image": {
+                    "url": "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
+                    "publicId": "Zehniyat/akyb5ryk89z2rze2yfkq"
+                },
+                "author": "Mario Puzo",
+                "ratings": null,
+                "students": 0,
+                "sections": 576,
+                "editorChoice": true,
+                "categories": [
+                    "621490a554e48a128448f19c"
+                ],
+                "price": 12000,
+                "discountPrice": null,
+                "createdAt": "2022-02-22T07:29:03.886Z",
+                "updatedAt": "2022-02-22T07:41:09.411Z",
+                "__v": 0
+            }
+        ]
+    },
+    {
+        "title": "Bestsellerlar",
+        "tag": "bestseller",
+        "books": [
+            {
+                "_id": "621482d3d8b7b6125cbc5694",
+                "title": "Marsdagi bolalar",
+                "description": "Criminal book",
+                "isPublic": true,
+                "tags": [
+                    "political",
+                    "biography"
+                ],
+                "image": {
+                    "url": "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
+                    "publicId": "Zehniyat/akyb5ryk89z2rze2yfkq"
+                },
+                "author": "Mario Puzo",
+                "ratings": null,
+                "students": 0,
+                "sections": 576,
+                "categories": [
+                    "62147bb1c6d5e12acb572f14"
+                ],
+                "price": 12000,
+                "discountPrice": null,
+                "createdAt": "2022-02-22T06:29:39.600Z",
+                "updatedAt": "2022-02-22T06:29:39.600Z",
+                "__v": 0
+            },
+            {
+                "_id": "621482ead8b7b6125cbc5698",
+                "title": "Marsdagi bolalar",
+                "description": "Criminal book",
+                "isPublic": true,
+                "tags": [
+                    "political",
+                    "biography"
+                ],
+                "image": {
+                    "url": "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
+                    "publicId": "Zehniyat/akyb5ryk89z2rze2yfkq"
+                },
+                "author": "Mario Puzo",
+                "ratings": null,
+                "students": 0,
+                "sections": 576,
+                "categories": [
+                    "621482c3d8b7b6125cbc5692"
+                ],
+                "price": 12000,
+                "discountPrice": null,
+                "createdAt": "2022-02-22T06:30:02.172Z",
+                "updatedAt": "2022-02-22T06:30:02.172Z",
+                "__v": 0
+            },
+            {
+                "_id": "621490bf54e48a128448f19f",
+                "title": "Osmondagi bolalar",
+                "description": "Criminal book",
+                "isPublic": true,
+                "tags": [
+                    "political",
+                    "biography"
+                ],
+                "image": {
+                    "url": "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
+                    "publicId": "Zehniyat/akyb5ryk89z2rze2yfkq"
+                },
+                "author": "Mario Puzo",
+                "ratings": null,
+                "students": 0,
+                "sections": 576,
+                "editorChoice": true,
+                "categories": [
+                    "621490a554e48a128448f19c"
+                ],
+                "price": 12000,
+                "discountPrice": null,
+                "createdAt": "2022-02-22T07:29:03.886Z",
+                "updatedAt": "2022-02-22T07:41:09.411Z",
+                "__v": 0
+            }
+        ]
+    },
+    {
+        "title": "Chegirmali kitoblar",
+        "tag": "discount",
+        "books": []
+    },
+    {
+        "title": "Yangi kitoblar",
+        "tag": "newBooks",
+        "books": [
+            {
+                "_id": "621490bf54e48a128448f19f",
+                "title": "Osmondagi bolalar",
+                "description": "Criminal book",
+                "isPublic": true,
+                "tags": [
+                    "political",
+                    "biography"
+                ],
+                "image": {
+                    "url": "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
+                    "publicId": "Zehniyat/akyb5ryk89z2rze2yfkq"
+                },
+                "author": "Mario Puzo",
+                "ratings": null,
+                "students": 0,
+                "sections": 576,
+                "editorChoice": true,
+                "categories": [
+                    "621490a554e48a128448f19c"
+                ],
+                "price": 12000,
+                "discountPrice": null,
+                "createdAt": "2022-02-22T07:29:03.886Z",
+                "updatedAt": "2022-02-22T07:41:09.411Z",
+                "__v": 0
+            },
+            {
+                "_id": "621482ead8b7b6125cbc5698",
+                "title": "Marsdagi bolalar",
+                "description": "Criminal book",
+                "isPublic": true,
+                "tags": [
+                    "political",
+                    "biography"
+                ],
+                "image": {
+                    "url": "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
+                    "publicId": "Zehniyat/akyb5ryk89z2rze2yfkq"
+                },
+                "author": "Mario Puzo",
+                "ratings": null,
+                "students": 0,
+                "sections": 576,
+                "categories": [
+                    "621482c3d8b7b6125cbc5692"
+                ],
+                "price": 12000,
+                "discountPrice": null,
+                "createdAt": "2022-02-22T06:30:02.172Z",
+                "updatedAt": "2022-02-22T06:30:02.172Z",
+                "__v": 0
+            },
+            {
+                "_id": "621482d3d8b7b6125cbc5694",
+                "title": "Marsdagi bolalar",
+                "description": "Criminal book",
+                "isPublic": true,
+                "tags": [
+                    "political",
+                    "biography"
+                ],
+                "image": {
+                    "url": "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
+                    "publicId": "Zehniyat/akyb5ryk89z2rze2yfkq"
+                },
+                "author": "Mario Puzo",
+                "ratings": null,
+                "students": 0,
+                "sections": 576,
+                "categories": [
+                    "62147bb1c6d5e12acb572f14"
+                ],
+                "price": 12000,
+                "discountPrice": null,
+                "createdAt": "2022-02-22T06:29:39.600Z",
+                "updatedAt": "2022-02-22T06:29:39.600Z",
+                "__v": 0
+            }
+        ]
+    },
+    {
+        "title": "Muharrir tanlovi",
+        "tag": "editorChoice",
+        "books": [
+            {
+                "_id": "621490bf54e48a128448f19f",
+                "title": "Osmondagi bolalar",
+                "description": "Criminal book",
+                "isPublic": true,
+                "tags": [
+                    "political",
+                    "biography"
+                ],
+                "image": {
+                    "url": "https://res.cloudinary.com/umarali/image/upload/v1642760831/Zehniyat/akyb5ryk89z2rze2yfkq.jpg",
+                    "publicId": "Zehniyat/akyb5ryk89z2rze2yfkq"
+                },
+                "author": "Mario Puzo",
+                "ratings": null,
+                "students": 0,
+                "sections": 576,
+                "editorChoice": true,
+                "categories": [
+                    "621490a554e48a128448f19c"
+                ],
+                "price": 12000,
+                "discountPrice": null,
+                "createdAt": "2022-02-22T07:29:03.886Z",
+                "updatedAt": "2022-02-22T07:41:09.411Z",
+                "__v": 0
+            }
+        ]
+    }
+]
