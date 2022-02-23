@@ -124,7 +124,7 @@ const userCtrl = {
             if (!info.valid) return res.error.invalidCode(res);
 
             const session = new Sessions({ session_user_device: "IOS" });
-            console.log(req);
+            await session.save();
 
             await Users.findOneAndUpdate(
                 { phone },

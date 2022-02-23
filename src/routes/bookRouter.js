@@ -1,22 +1,22 @@
-const router = require("express").Router();
-const bookCtrl = require("../controllers/bookCtrl");
+const Express = require("express");
+const bookCtrl = require("../controllers/bookCtrl")
+const UserRouter = Express.Router();
+const auth = require("../middlewares/auth")
 
-router.route("/book").get(bookCtrl.getBooks).post(bookCtrl.createBook);
+UserRouter.route("/book").get(bookCtrl.getBooks).post(bookCtrl.createBook);
+UserRouter.get("/book/search", bookCtrl.searchBook);
 
-// router.route("/books").get(bookCtrl.getTestBooks);
+UserRouter.get("/book/main", bookCtrl.getMainBooks);
+UserRouter.get("/book/:bookStatus", bookCtrl.getBooksByTag);
+UserRouter.post("/book/:id/status", bookCtrl.statusBook);
 
-router.get("/book/search", bookCtrl.searchBook);
-
-router.get("/book/main", bookCtrl.getMainBooks);
-
-router.get("/book/:bookStatus", bookCtrl.getBooksByTag);
-
-router.post("/book/:id/status", bookCtrl.statusBook);
-
-router
-    .route("/book/:id")
+UserRouter.get("/book/user", auth, bookCtrl.getUserBooks);
+UserRouter.route("/book/:id")
     .get(bookCtrl.getBook)
     .put(bookCtrl.updateBook)
     .delete(bookCtrl.deleteBook);
 
-module.exports = router;
+module.exports = {
+    path: "/api/users",
+    router: UserRouter,
+};

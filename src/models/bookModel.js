@@ -51,7 +51,7 @@ const bookSchema = new mongoose.Schema(
         },
         bookStatus: {
             type: String,
-            enum: ["new", "bestseller", "discount, editorChoice"],
+            enum: ["new", "bestseller", "discount", "editorChoice"],
         },
         categories: [
             {
