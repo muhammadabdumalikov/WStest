@@ -3,7 +3,7 @@ const Path = require("path");
 
 const homedir = Path.resolve();
 
-module.exports = function (app) {
+function router(app) {
     // Get Router and run || Custom GLOB collector
     try {
         return new Promise((resolve, reject) => {
@@ -18,9 +18,10 @@ module.exports = function (app) {
                         "routes",
                         routeName
                     );
-                    const route = await import(`file://${routeFile}`);
-                    if (route.default.path && route.default.router) {
-                        app.use(route.default.path, route.default.router);
+                    // console.log(routeFile)
+                    const route = require(routeFile);
+                    if (route.path && route.router) {
+                        app.use(route.path, route.router);
                     }
                 }
 
@@ -31,3 +32,5 @@ module.exports = function (app) {
         console.log(error);
     }
 }
+
+module.exports = router;

@@ -1,22 +1,24 @@
-const router = require("express").Router();
+const Express = require("express");
 const userCtrl = require("../controllers/userCtrl");
 const auth = require("../middlewares/auth");
+const UserRouter = Express.Router();
 
-router.post("/register", userCtrl.checkPhone, userCtrl.register);
+UserRouter.post("/register", userCtrl.checkPhone, userCtrl.register);
 
-router.post("/register/verify", userCtrl.registerVerify);
+UserRouter.post("/register/verify", userCtrl.registerVerify);
 
-router.post("/login", userCtrl.checkPhone, userCtrl.login);
+UserRouter.post("/login", userCtrl.checkPhone, userCtrl.login);
 
-router.post("/login/verify", userCtrl.loginVerify);
+UserRouter.post("/login/verify", userCtrl.loginVerify);
 
-router.get("/logout", userCtrl.logout);
+UserRouter.get("/logout", userCtrl.logout);
 
-router
-  .route("/me")
-  .get(auth, userCtrl.getUser)
-  .put(auth, userCtrl.updateUser)
-  .delete(auth, userCtrl.deleteUser);
-router.put("/me/verify", auth, userCtrl.updateVerify);
+UserRouter.get("/me", auth, userCtrl.getUser);
+UserRouter.put("/me", auth, userCtrl.updateUser);
+UserRouter.delete("/me", auth, userCtrl.deleteUser);
+UserRouter.put("/me/verify", auth, userCtrl.updateVerify);
 
-module.exports = router;
+module.exports = {
+    path: "/api/users",
+    router: UserRouter,
+};

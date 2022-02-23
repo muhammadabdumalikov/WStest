@@ -1,20 +1,13 @@
-const router = require("express").Router();
+const Express = require("express");
 const categoryCtrl = require("../controllers/categoryCtrl");
+const CategoryRouter = Express.Router();
 
-router
-    .route("/category")
-    .get(categoryCtrl.getCategories)
-    .post(categoryCtrl.createCategory);
+CategoryRouter.put("/category/:id", categoryCtrl.updateCategory);
+CategoryRouter.delete("/category/:id", categoryCtrl.deleteCategory);
+CategoryRouter.get("/category", categoryCtrl.getCategories);
+CategoryRouter.post("/category", categoryCtrl.createCategory);
 
-// router.get("/book/main", bookCtrl.getMainBooks);
-
-// router.get("/book/bookmarks", bookCtrl.getBookmarkBooks);
-
-// router.post("/book/:id/status", bookCtrl.statusBook);
-
-router
-  .route("/category/:id")
-  .put(categoryCtrl.updateCategory)
-  .delete(categoryCtrl.deleteCategory);
-
-module.exports = router;
+module.exports = {
+    path: "/api/category",
+    router: CategoryRouter,
+};
