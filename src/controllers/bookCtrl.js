@@ -7,7 +7,10 @@ const bookCtrl = {
     getBooks: async (req, res) => {
         try {
             const features = new APIfeatures(
-                Books.find().sort({ title: "desc", test: -1 }).lean(),
+                Books.where("isPublic")
+                    .equals(true)
+                    .sort({ title: "desc", test: -1 })
+                    .lean(),
                 req.query
             )
                 .filtering()
@@ -28,45 +31,45 @@ const bookCtrl = {
                 })
             );
 
-            res.json({ status: "OK", length: books.length, books });
+            res.json({ length: books.length, books });
         } catch (err) {
             return res.error.handleError(res, err);
         }
     },
-    getTestBooks: async (req, res) => {
-        try {
-            const books = await Books.find()
-                .populate("categories", "-books")
-                .lean();
+    // getTestBooks: async (req, res) => {
+    //     try {
+    //         const books = await Books.find()
+    //             .populate("categories", "-books")
+    //             .lean();
 
-            res.json(books);
-        } catch (error) {
-            return res.error.handleError(res, err);
-        }
-    },
-    getBookmarkBooks: async (req, res) => {
-        try {
-            let books = await BookStatus.find({
-                bookmark: true,
-                // userId: req.user.id,
-            })
-                .lean()
-                .select("rate process bookmark bookId");
+    //         res.json(books);
+    //     } catch (error) {
+    //         return res.error.handleError(res, err);
+    //     }
+    // },
+    // getBookmarkBooks: async (req, res) => {
+    //     try {
+    //         let books = await BookStatus.find({
+    //             bookmark: true,
+    //             // userId: req.user.id,
+    //         })
+    //             .lean()
+    //             .select("rate process bookmark bookId");
 
-            books = await Promise.all(
-                books.map(async (bookStatus) => {
-                    const book = await Books.findById(bookStatus.bookId).lean();
+    //         books = await Promise.all(
+    //             books.map(async (bookStatus) => {
+    //                 const book = await Books.findById(bookStatus.bookId).lean();
 
-                    delete bookStatus["bookId"];
-                    return { ...book, ...bookStatus };
-                })
-            );
+    //                 delete bookStatus["bookId"];
+    //                 return { ...book, ...bookStatus };
+    //             })
+    //         );
 
-            res.json({ status: "OK", length: books.length, books });
-        } catch (err) {
-            return res.error.handleError(res, err);
-        }
-    },
+    //         res.json({ status: "OK", length: books.length, books });
+    //     } catch (err) {
+    //         return res.error.handleError(res, err);
+    //     }
+    // },
     getMainBooks: async (req, res) => {
         try {
             const limit = parseInt(req.query.limit);
@@ -156,7 +159,53 @@ const bookCtrl = {
                 })
             );
 
-            res.json({ special, bestseller, discount, newBooks, editorChoice });
+            res.json([
+                {
+                    title: "Siz uchun maxsus",
+                    tag: "special",
+                    books: special,
+                },
+                {
+                    title: "Bestsellerlar",
+                    tag: "bestseller",
+                    books: bestseller,
+                },
+                {
+                    title: "Chegirmali kitoblar",
+                    tag: "discount",
+                    books: discount,
+                },
+                {
+                    title: "Yangi kitoblar",
+                    tag: "newBooks",
+                    books: newBooks,
+                },
+                {
+                    title: "Muharrir tanlovi",
+                    tag: "editorChoice",
+                    books: editorChoice,
+                },
+            ]);
+        } catch (err) {
+            return res.error.handleError(res, err);
+        }
+    },
+    getBooksByTag: async (req, res) => {
+        try {
+            const features = new APIfeatures(
+                Books.where("bookStatus")
+                    .equals(req.params.bookStatus)
+                    .sort({ title: "asc", test: -1 })
+                    .lean(),
+                req.query
+            )
+                .filtering()
+                .sorting()
+                .paginating();
+
+            let books = await features.query;
+            
+            res.json(books)
         } catch (err) {
             return res.error.handleError(res, err);
         }
@@ -216,11 +265,12 @@ const bookCtrl = {
             const {
                 title,
                 description,
-                tags,
                 author,
                 sections,
                 image,
-                categoryId,
+                categories,
+                bookStatus,
+                bookUrl,
                 price,
                 editorChoice,
                 discountPrice,
@@ -229,17 +279,18 @@ const bookCtrl = {
             const newBook = new Books({
                 title,
                 description,
-                tags,
                 author,
                 sections,
-                categories: [categoryId],
+                categories,
                 image,
+                bookStatus,
+                bookUrl,
                 price,
                 editorChoice,
                 discountPrice,
             });
             await newBook.save();
-
+            res.status(200).json({ message: "Book created" });
         } catch (err) {
             return res.error.handleError(res, err);
         }

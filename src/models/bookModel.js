@@ -17,9 +17,10 @@ const bookSchema = new mongoose.Schema(
             type: Boolean,
             default: true,
         },
-        tags: {
-            type: [{ type: String }],
-        },
+        // tags: {
+        //     type: [{ type: String }],
+        //     enum: permitted
+        // },
         image: {
             url: {
                 type: String,
@@ -48,9 +49,9 @@ const bookSchema = new mongoose.Schema(
             required: true,
             default: 1,
         },
-        editorChoice: {
-            type: Boolean,
-            default: false,
+        bookStatus: {
+            type: String,
+            enum: ["new", "bestseller", "discount, editorChoice"],
         },
         categories: [
             {
@@ -59,6 +60,11 @@ const bookSchema = new mongoose.Schema(
                 required: true,
             },
         ],
+        bookUrl: {
+            type: String,
+            required: true,
+            trim: true,
+        },
         price: { type: Number, default: null },
         discountPrice: { type: Number, default: null },
     },

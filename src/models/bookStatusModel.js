@@ -12,17 +12,17 @@ const bookRatingSchema = new mongoose.Schema(
         //     ref: "Users",
         //     required: true,
         // },
+        isFinished: {
+            type: Boolean,
+            default: false,
+        },
         rate: {
             type: Number,
             default: null,
         },
         process: {
-            type: Number,
+            type: String,
             default: null,
-        },
-        bookmark: {
-            type: Boolean,
-            default: false,
         },
     },
     {

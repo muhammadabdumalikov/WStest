@@ -3,13 +3,13 @@ const bookCtrl = require("../controllers/bookCtrl");
 
 router.route("/book").get(bookCtrl.getBooks).post(bookCtrl.createBook);
 
-router.route("/books").get(bookCtrl.getTestBooks);
+// router.route("/books").get(bookCtrl.getTestBooks);
 
 router.get("/book/search", bookCtrl.searchBook);
 
 router.get("/book/main", bookCtrl.getMainBooks);
 
-router.get("/book/bookmarks", bookCtrl.getBookmarkBooks);
+router.get("/book/:bookStatus", bookCtrl.getBooksByTag);
 
 router.post("/book/:id/status", bookCtrl.statusBook);
 
