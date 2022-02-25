@@ -30,10 +30,13 @@ async function server() {
     app.use(errorHandler);
 
     // Routes
-    await routes(app); 
+    await routes(app);
 
     // Docs
     app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
+    app.get("/", (req, res) => {
+        res.send("Hello");
+    });
 
     // MongoDB connection
     db();
@@ -42,4 +45,4 @@ async function server() {
     app.listen(PORT, () => console.log(`Server started on the port ${PORT}`));
 }
 
-server()
+server();
