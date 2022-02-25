@@ -17,10 +17,10 @@ const bookSchema = new mongoose.Schema(
             type: Boolean,
             default: true,
         },
-        // tags: {
-        //     type: [{ type: String }],
-        //     enum: permitted
-        // },
+        tags: {
+            type: [{ type: String }],
+            required: true,
+        },
         image: {
             url: {
                 type: String,
