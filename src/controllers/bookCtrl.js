@@ -232,12 +232,11 @@ const bookCtrl = {
     getUserBooks: async (req, res) => {
         try {
 
-            console.log(11111)
             const {session} = req.session;
 
             const id = jwt.verify(session, process.env.ACCESS_TOKEN_SECRET);
 
-            res.json(id);
+            res.json({ok: false});
         } catch (err) {
             return res.error.handleError(res, err);
         }

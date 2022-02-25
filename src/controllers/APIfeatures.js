@@ -16,7 +16,7 @@ class APIfeatures {
             .split(",");
 
         let queries = JSON.parse(queryStr);
-        console.log(queries);
+        // console.log(queries);
 
         if ("title" in queries && "$regex" in queries.title) {
             queries.title.$regex = new RegExp("^" + queries.title.$regex, "i");

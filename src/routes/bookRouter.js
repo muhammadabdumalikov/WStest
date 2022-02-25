@@ -3,18 +3,22 @@ const bookCtrl = require("../controllers/bookCtrl");
 const BookRouter = Express.Router();
 const auth = require("../middlewares/auth");
 
-BookRouter.get("/book", bookCtrl.getBooks);
-BookRouter.post("/book", bookCtrl.createBook);
-BookRouter.get("/book/search", bookCtrl.searchBook);
+BookRouter.get("/user", auth, bookCtrl.getUserBooks);
 
-BookRouter.get("/book/main", bookCtrl.getMainBooks);
-BookRouter.get("/book/:bookStatus", bookCtrl.getBooksByTag);
-BookRouter.post("/book/:id/status", bookCtrl.statusBook);
+BookRouter.get("/", auth, bookCtrl.getBooks);
+BookRouter.post("/", bookCtrl.createBook);
 
-BookRouter.get("/book/user", auth, bookCtrl.getUserBooks);
-BookRouter.get("/book/:id", bookCtrl.getBook);
-BookRouter.put("/book/:id", bookCtrl.updateBook);
-BookRouter.delete("/book/:id", bookCtrl.deleteBook);
+BookRouter.get("/:bookStatus", bookCtrl.getBooksByTag);
+
+BookRouter.get("/:id", bookCtrl.getBook);
+BookRouter.put("/:id", bookCtrl.updateBook);
+BookRouter.delete("/:id", bookCtrl.deleteBook);
+
+BookRouter.post("/:id/status", bookCtrl.statusBook);
+
+BookRouter.get("/search", bookCtrl.searchBook);
+
+BookRouter.get("/main", bookCtrl.getMainBooks);
 
 module.exports = {
     path: "/api/book",

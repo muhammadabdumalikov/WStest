@@ -19,6 +19,6 @@ UserRouter.delete("/me", auth, userCtrl.deleteUser);
 UserRouter.put("/me/verify", auth, userCtrl.updateVerify);
 
 module.exports = {
-    path: "/api/users",
+    path: "/api",
     router: UserRouter,
 };

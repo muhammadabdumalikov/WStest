@@ -3,8 +3,9 @@ const Session = require("../models/sessionModel");
 
 const auth = (req, res, next) => {
     try {
-        const authHeader = req.headers["authorization"];
+        const authHeader = req.headers["token"];
         const token = authHeader && authHeader.split(" ")[1];
+        console.log(authHeader, 111)
 
         if (!token)
             return res.status(401).json({

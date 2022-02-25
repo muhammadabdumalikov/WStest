@@ -2,10 +2,11 @@ const Express = require("express");
 const categoryCtrl = require("../controllers/categoryCtrl");
 const CategoryRouter = Express.Router();
 
-CategoryRouter.put("/category/:id", categoryCtrl.updateCategory);
-CategoryRouter.delete("/category/:id", categoryCtrl.deleteCategory);
-CategoryRouter.get("/category", categoryCtrl.getCategories);
-CategoryRouter.post("/category", categoryCtrl.createCategory);
+CategoryRouter.get("/", categoryCtrl.getCategories);
+CategoryRouter.post("/", categoryCtrl.createCategory);
+
+CategoryRouter.put("/:id", categoryCtrl.updateCategory);
+CategoryRouter.delete("/:id", categoryCtrl.deleteCategory);
 
 module.exports = {
     path: "/api/category",
